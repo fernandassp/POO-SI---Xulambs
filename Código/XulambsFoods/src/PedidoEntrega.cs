@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace XulambsFoods_2024_2.src
 {
-    internal class PedidoEntrega : IPedido
+    public class PedidoEntrega : IPedido
     {
         private const int MaxEntrega = 2;
         private readonly double[] TaxasEntrega = { 0, 5, 8 };
@@ -26,6 +26,8 @@ namespace XulambsFoods_2024_2.src
         
         public int Adicionar(Comida comida)
         {
+            if (comida == null)
+                throw new ArgumentNullException(nameof(comida));
             if (_comidas.Quantidade() == MaxEntrega)
                 throw new PedidoLotadoException($"Máximo de {MaxEntrega} comidas em pedido para entrega.");
             _comidas.Add(comida);
