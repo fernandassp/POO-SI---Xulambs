@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using XulambsFoods_2024_2.src;
 using System;
 using System.Collections.Generic;
@@ -7,34 +7,32 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace XulambsFoods_2024_2.src.Tests {
-    [TestClass()]
     public class SanduicheTests {
-        static Sanduiche sanduiche;
+        Sanduiche sanduiche;
 
-        [TestInitialize]
-        public void inicializar() {
+        public SanduicheTests() {
             sanduiche = new Sanduiche();
         }
 
         
-        [TestMethod()]
+        [Fact]
         public void CalcularValorFinal() {
             sanduiche.AdicionarIngredientes(3);
-            Assert.AreEqual(24d, sanduiche.ValorFinal());
+            Assert.Equal(24d, sanduiche.ValorFinal());
         }
 
-        [TestMethod()]
+        [Fact]
         public void ValorFinalComCombo() {
             sanduiche = new Sanduiche(true);
             sanduiche.AdicionarIngredientes(3);
-            Assert.AreEqual(29d, sanduiche.ValorFinal());
+            Assert.Equal(29d, sanduiche.ValorFinal());
         }
 
 
-        [TestMethod()]
+        [Fact]
         public void NotaDeCompraTest() {
             string nota = sanduiche.NotaDeCompra();
-            Assert.IsTrue(nota.Contains("0 ingredientes") && 
+            Assert.True(nota.Contains("0 ingredientes") && 
                           (nota.Contains("15,00")));
         }
     }

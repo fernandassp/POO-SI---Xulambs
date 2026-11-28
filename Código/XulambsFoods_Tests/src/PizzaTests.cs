@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using XulambsFoods_2024_2.src;
 using System;
 using System.Collections.Generic;
@@ -7,48 +7,46 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace XulambsFoods_2024_2.src.Tests {
-    [TestClass()]
     public class PizzaTests {
-        static Pizza pizza;
+        Pizza pizza;
 
-        [TestInitialize]
-        public void SetUp() {
+        public PizzaTests() {
             pizza = new Pizza();
         }
 
-        [TestMethod()]
+        [Fact]
         public void CriarPizzaVazia() {
-            Assert.IsTrue(pizza.NotaDeCompra().Contains("0 ingredientes"));
+            Assert.True(pizza.NotaDeCompra().Contains("0 ingredientes"));
         }
 
-        [TestMethod()]
+        [Fact]
         public void CriarPizzarComIngredientes() {
             pizza = new Pizza(2);
-            Assert.IsTrue(pizza.NotaDeCompra().Contains("2 ingredientes"));
+            Assert.True(pizza.NotaDeCompra().Contains("2 ingredientes"));
         }
 
-        [TestMethod()]
+        [Fact]
         public void CalculaValorCorretamente() {
             pizza.AdicionarIngredientes(2);
-            Assert.AreEqual(39d, pizza.ValorFinal());
+            Assert.Equal(39d, pizza.ValorFinal());
         }
 
-        [TestMethod()]
+        [Fact]
         public void AdicionaIngredientesCorretamente() {
             pizza = new Pizza();
-            Assert.AreEqual(3, pizza.AdicionarIngredientes(3));
+            Assert.Equal(3, pizza.AdicionarIngredientes(3));
         }
 
-        [TestMethod()]
+        [Fact]
         public void NaoPodeAdicionarIngredientesAlemDoMaximo() {
             pizza = new Pizza(6);
-            Assert.AreEqual(6, pizza.AdicionarIngredientes(3));
+            Assert.Equal(6, pizza.AdicionarIngredientes(3));
         }
 
-        [TestMethod()]
+        [Fact]
         public void GeraNotaDeCompraComDetalhes() {
             pizza = new Pizza(6);
-            Assert.IsTrue(pizza.NotaDeCompra().Contains("6 ingredientes"));
+            Assert.True(pizza.NotaDeCompra().Contains("6 ingredientes"));
         }
     }
 }

@@ -1,10 +1,9 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using XulambsFoods_2024_2.src;
 using System;
 
 namespace XulambsFoods_2024_2.src.Tests
 {
-    [TestClass()]
     public class PedidoEntregaTests
     {
         private PedidoEntrega pedidoMuItoPerto;  // distância < 0.1
@@ -18,8 +17,7 @@ namespace XulambsFoods_2024_2.src.Tests
         private Pizza pizzaCom5Adicionais;
         private Sanduiche sanduicheSemAdicionais;
 
-        [TestInitialize]
-        public void SetUp()
+        public PedidoEntregaTests()
         {
             // Inicializar pedidos com diferentes distâncias
             pedidoMuItoPerto = new PedidoEntrega(0.05);     // menor que 0.1
@@ -37,79 +35,79 @@ namespace XulambsFoods_2024_2.src.Tests
 
         // ===== Testes de Distância =====
 
-        [TestMethod()]
+        [Fact]
         public void DistanciaMenorQue01DefinaTaxaZero()
         {
             // Arrange - já feito em SetUp
             // Act
             double taxa = pedidoMuItoPerto.ValorTaxa();
             // Assert
-            Assert.AreEqual(0d, taxa);
+            Assert.Equal(0d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void DistanciaIgualA4DefinaTaxaZero()
         {
             // Arrange - já feito em SetUp
             // Act
             double taxa = pedidoDistancia4.ValorTaxa();
             // Assert
-            Assert.AreEqual(0d, taxa);
+            Assert.Equal(0d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void DistanciaMaiorQue4EmenorQue8DefinaTaxaCinco()
         {
             // Arrange - já feito em SetUp
             // Act
             double taxa = pedidoDistancia6.ValorTaxa();
             // Assert
-            Assert.AreEqual(5d, taxa);
+            Assert.Equal(5d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void DistanciaIgualA8DefinaTaxaCinco()
         {
             // Arrange - já feito em SetUp
             // Act
             double taxa = pedidoDistancia8.ValorTaxa();
             // Assert
-            Assert.AreEqual(5d, taxa);
+            Assert.Equal(5d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void DistanciaMaiorQue8DefinaTaxaOito()
         {
             // Arrange - já feito em SetUp
             // Act
             double taxa = pedidoMuitoLonge.ValorTaxa();
             // Assert
-            Assert.AreEqual(8d, taxa);
+            Assert.Equal(8d, taxa);
         }
 
         // ===== Testes de Adição de Comidas =====
 
-        [TestMethod()]
+        [Fact]
         public void PedidoSemItensTemValorZero()
         {
             // Arrange - já feito em SetUp
             // Act
             double valor = pedidoDistancia4.ValorItens();
             // Assert
-            Assert.AreEqual(0d, valor);
+            Assert.Equal(0d, valor);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoComUmaComidaRetornaQuantidade1()
         {
             // Arrange - já feito em SetUp
             // Act
             int quantidade = pedidoDistancia4.Adicionar(pizzaSemAdicionais);
             // Assert
-            Assert.AreEqual(1, quantidade);
+            Assert.Equal(1, quantidade);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoComDuasComidosRetornaQuantidade2()
         {
             // Arrange - já feito em SetUp
@@ -117,10 +115,10 @@ namespace XulambsFoods_2024_2.src.Tests
             pedidoDistancia4.Adicionar(pizzaSemAdicionais);
             int quantidade = pedidoDistancia4.Adicionar(pizzaCom2Adicionais);
             // Assert
-            Assert.AreEqual(2, quantidade);
+            Assert.Equal(2, quantidade);
         }
 
-        [TestMethod()]
+        [Fact]
         public void TentativaDeAdicionarTerceiraComidaLancaExcecao()
         {
             // Arrange - já feito em SetUp
@@ -128,13 +126,13 @@ namespace XulambsFoods_2024_2.src.Tests
             pedidoDistancia4.Adicionar(pizzaCom2Adicionais);
 
             // Act & Assert
-            Assert.ThrowsException<PedidoLotadoException>(
+            Assert.Throws<PedidoLotadoException>(
                 () => pedidoDistancia4.Adicionar(pizzaCom5Adicionais));
         }
 
         // ===== Testes de Valor de Itens =====
 
-        [TestMethod()]
+        [Fact]
         public void ValorItensComUmaPizzaSemAdicionais()
         {
             // Arrange - já feito em SetUp
@@ -144,10 +142,10 @@ namespace XulambsFoods_2024_2.src.Tests
             double valor = pedidoDistancia4.ValorItens();
 
             // Assert - Pizza sem adicionais custa 29.00
-            Assert.AreEqual(29d, valor, 0.01);
+            Assert.Equal(29d, valor, 0.01);
         }
 
-        [TestMethod()]
+        [Fact]
         public void ValorItensComDuasPizzas()
         {
             // Arrange - já feito em SetUp
@@ -158,12 +156,12 @@ namespace XulambsFoods_2024_2.src.Tests
             double valor = pedidoDistancia4.ValorItens();
 
             // Assert - Pizza(29) + Pizza com 2 adicionais(29+10=39) = 68
-            Assert.AreEqual(68d, valor, 0.01);
+            Assert.Equal(68d, valor, 0.01);
         }
 
         // ===== Testes de Relatório =====
 
-        [TestMethod()]
+        [Fact]
         public void RelatorioContemPalavraENTREGA()
         {
             // Arrange - já feito em SetUp
@@ -171,10 +169,10 @@ namespace XulambsFoods_2024_2.src.Tests
             string relatorio = pedidoDistancia4.Relatorio();
 
             // Assert
-            Assert.IsTrue(relatorio.Contains("ENTREGA"));
+            Assert.True(relatorio.Contains("ENTREGA"));
         }
 
-        [TestMethod()]
+        [Fact]
         public void RelatorioContemTaxaDeEntrega()
         {
             // Arrange - já feito em SetUp
@@ -182,10 +180,10 @@ namespace XulambsFoods_2024_2.src.Tests
             string relatorio = pedidoDistancia4.Relatorio();
 
             // Assert
-            Assert.IsTrue(relatorio.Contains("TAXA ENTREGA"));
+            Assert.True(relatorio.Contains("TAXA ENTREGA"));
         }
 
-        [TestMethod()]
+        [Fact]
         public void RelatorioComUmaPizzaMostraDetalhes()
         {
             // Arrange - já feito em SetUp
@@ -195,10 +193,10 @@ namespace XulambsFoods_2024_2.src.Tests
             string relatorio = pedidoDistancia4.Relatorio();
 
             // Assert
-            Assert.IsTrue(relatorio.Contains("Pizza"));
+            Assert.True(relatorio.Contains("Pizza"));
         }
 
-        [TestMethod()]
+        [Fact]
         public void RelatorioComDuasPizzasMostraAmbas()
         {
             // Arrange - já feito em SetUp
@@ -210,11 +208,11 @@ namespace XulambsFoods_2024_2.src.Tests
 
             // Assert
             // Deve aparecer as pizzas e a taxa
-            Assert.IsTrue(relatorio.Contains("Pizza"));
-            Assert.IsTrue(relatorio.Contains("TAXA ENTREGA"));
+            Assert.True(relatorio.Contains("Pizza"));
+            Assert.True(relatorio.Contains("TAXA ENTREGA"));
         }
 
-        [TestMethod()]
+        [Fact]
         public void RelatorioFormatacaoComRodapeDeIguais()
         {
             // Arrange - já feito em SetUp
@@ -222,12 +220,12 @@ namespace XulambsFoods_2024_2.src.Tests
             string relatorio = pedidoDistancia4.Relatorio();
 
             // Assert
-            Assert.IsTrue(relatorio.Contains("========"));
+            Assert.True(relatorio.Contains("========"));
         }
 
         // ===== Testes de Taxa para Diferentes Distâncias =====
 
-        [TestMethod()]
+        [Fact]
         public void PedidoDistancia0_1DeveTerTaxaZero()
         {
             // Arrange
@@ -237,10 +235,10 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(0d, taxa);
+            Assert.Equal(0d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoDistancia4_5DeveTerTaxaCinco()
         {
             // Arrange
@@ -250,10 +248,10 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(5d, taxa);
+            Assert.Equal(5d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoDistancia7_99DeveTerTaxaCinco()
         {
             // Arrange
@@ -263,10 +261,10 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(5d, taxa);
+            Assert.Equal(5d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoDistancia100DeveTerTaxaOito()
         {
             // Arrange
@@ -276,24 +274,24 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(8d, taxa);
+            Assert.Equal(8d, taxa);
         }
 
         // ===== Testes de Comportamento da Exceção =====
 
-        [TestMethod()]
-        [ExpectedException(typeof(PedidoLotadoException))]
+        [Fact]
         public void ExcecaoPedidoLotadoContemmensagem()
         {
             // Arrange - já feito em SetUp
             pedidoDistancia4.Adicionar(pizzaSemAdicionais);
             pedidoDistancia4.Adicionar(pizzaCom2Adicionais);
 
-            // Act
-            pedidoDistancia4.Adicionar(pizzaCom5Adicionais);
+            // Act & Assert
+            Assert.Throws<PedidoLotadoException>(
+                () => pedidoDistancia4.Adicionar(pizzaCom5Adicionais));
         }
 
-        [TestMethod()]
+        [Fact]
         public void ExcecaoPedidoLotadoLancadaNaTerceiraAdicao()
         {
             // Arrange - já feito em SetUp
@@ -301,20 +299,14 @@ namespace XulambsFoods_2024_2.src.Tests
             pedidoDistancia4.Adicionar(pizzaCom2Adicionais);
 
             // Act & Assert
-            try
-            {
-                pedidoDistancia4.Adicionar(pizzaCom5Adicionais);
-                Assert.Fail("Deveria ter lançado PedidoLotadoException");
-            }
-            catch (PedidoLotadoException ex)
-            {
-                Assert.IsTrue(ex.Message.Contains("Máximo"));
-            }
+            var ex = Assert.Throws<PedidoLotadoException>(
+                () => pedidoDistancia4.Adicionar(pizzaCom5Adicionais));
+            Assert.True(ex.Message.Contains("Máximo"));
         }
 
         // ===== Testes de Integração Distância e Taxa =====
 
-        [TestMethod()]
+        [Fact]
         public void PedidoComDistancia1km()
         {
             // Arrange
@@ -324,10 +316,10 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(0d, taxa);
+            Assert.Equal(0d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoComDistancia5km()
         {
             // Arrange
@@ -337,10 +329,10 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(5d, taxa);
+            Assert.Equal(5d, taxa);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoComDistancia9km()
         {
             // Arrange
@@ -350,12 +342,12 @@ namespace XulambsFoods_2024_2.src.Tests
             double taxa = pedido.ValorTaxa();
 
             // Assert
-            Assert.AreEqual(8d, taxa);
+            Assert.Equal(8d, taxa);
         }
 
         // ===== Testes de Comidas Diferentes =====
 
-        [TestMethod()]
+        [Fact]
         public void AdicionaSanduicheEmPedidoEntrega()
         {
             // Arrange - já feito em SetUp
@@ -363,10 +355,10 @@ namespace XulambsFoods_2024_2.src.Tests
             int quantidade = pedidoDistancia4.Adicionar(sanduicheSemAdicionais);
 
             // Assert
-            Assert.AreEqual(1, quantidade);
+            Assert.Equal(1, quantidade);
         }
 
-        [TestMethod()]
+        [Fact]
         public void PedidoComPizzaESanduiche()
         {
             // Arrange - já feito em SetUp
@@ -376,18 +368,18 @@ namespace XulambsFoods_2024_2.src.Tests
             int quantidade = pedidoDistancia4.Adicionar(sanduicheSemAdicionais);
 
             // Assert
-            Assert.AreEqual(2, quantidade);
+            Assert.Equal(2, quantidade);
         }
 
         // ===== Testes de Comportamento com Comida Nula =====
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void AdicionarComidaNulaLancaExcecao()
         {
             // Arrange - já feito em SetUp
-            // Act
-            pedidoDistancia4.Adicionar(null);
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(
+                () => pedidoDistancia4.Adicionar(null));
         }
     }
 }
